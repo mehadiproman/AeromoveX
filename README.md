@@ -1,4 +1,4 @@
-# ✈ AeroMoveX
+#                                                         AeroMoveX
 
 ```text
             ✈
@@ -7,10 +7,10 @@
 ───────●────────────────
         AeroMoveX
 ```
+---
 
 > **A modern Electron desktop app for tracking live aircraft using real-time flight data.**
 
----
 
 ## Overview
 
@@ -18,7 +18,6 @@
 
 The application provides a clean desktop interface for searching flights, viewing real-time aircraft information, managing a personal watchlist, and receiving native desktop notifications.
 
----
 
 ## Features
 
@@ -35,7 +34,7 @@ The application provides a clean desktop interface for searching flights, viewin
 - Native desktop notifications
 - Modern and responsive user interface
 
----
+
 
 ## Tech Stack
 
@@ -46,7 +45,7 @@ The application provides a clean desktop interface for searching flights, viewin
 - JavaScript (ES6+)
 - OpenSky Network API
 
----
+
 
 ## Project Structure
 
@@ -82,7 +81,7 @@ This project demonstrates:
 - Native desktop notifications
 - Modern JavaScript development
 
----
+
 
 ## Future Improvements
 
@@ -94,7 +93,7 @@ This project demonstrates:
 - Weather integration
 - Flight route visualization
 
----
+
 
 ## License
 

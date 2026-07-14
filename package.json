@@ -1,0 +1,11 @@
+{
+  "name": "aeromovex",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AeroMoveX Electron desktop app for live aircraft tracking.",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron ."
+  }
+}

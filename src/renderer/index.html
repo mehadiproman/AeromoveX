@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AeroMoveX dashboard for live aircraft tracking." />
+    <title>AeroMoveX | Live Flight Dashboard</title>
+    <link rel="stylesheet" href="./styles/global.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">✈</span>
+          <div>
+            <p class="brand-kicker">AeroMoveX</p>
+            <h1>Flight Control</h1>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <a class="nav-item active" href="#dashboard">Dashboard</a>
+          <a class="nav-item" href="#watchlist">Watchlist</a>
+          <a class="nav-item" href="#details">Flight Details</a>
+          <a class="nav-item" href="#settings">Settings</a>
+        </nav>
+
+        <section class="sidebar-card">
+          <p class="label">Region</p>
+          <h2>Bangladesh Airspace</h2>
+          <p class="muted">A focused interface for live aircraft monitoring.</p>
+        </section>
+      </aside>
+
+      <main class="content" id="dashboard">
+        <header class="hero">
+          <div>
+            <p class="eyebrow">Live Aircraft Tracking</p>
+            <h2>Monitor flights with a calm, desktop-first layout.</h2>
+          </div>
+
+          <div class="hero-actions">
+            <button type="button" class="button button-primary">Refresh Data</button>
+            <button type="button" class="button button-secondary">Save Watchlist</button>
+          </div>
+        </header>
+
+        <section class="stats-grid" aria-label="Flight statistics">
+          <article class="stat-card">
+            <p class="label">Active Flights</p>
+            <strong>128</strong>
+            <span class="muted">Across the selected region</span>
+          </article>
+          <article class="stat-card">
+            <p class="label">Watchlist</p>
+            <strong>12</strong>
+            <span class="muted">Saved flights loading locally</span>
+          </article>
+          <article class="stat-card">
+            <p class="label">Notifications</p>
+            <strong>On</strong>
+            <span class="muted">Native desktop alerts enabled</span>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="panel panel-map">
+            <div class="panel-header">
+              <div>
+                <p class="label">Map</p>
+                <h3>Bangladesh Flight View</h3>
+              </div>
+              <span class="status-pill">Live</span>
+            </div>
+            <div class="map-placeholder">
+              <div class="map-glow"></div>
+              <p>Interactive map placeholder</p>
+            </div>
+          </article>
+
+          <article class="panel panel-list" id="watchlist">
+            <div class="panel-header">
+              <div>
+                <p class="label">Watchlist</p>
+                <h3>Saved Flights</h3>
+              </div>
+            </div>
+
+            <ul class="flight-list">
+              <li>
+                <strong>BGD 742</strong>
+                <span>Dhaka to Chattogram</span>
+              </li>
+              <li>
+                <strong>BGD 391</strong>
+                <span>Sylhet to Dhaka</span>
+              </li>
+              <li>
+                <strong>BGD 205</strong>
+                <span>Cox's Bazar to Dhaka</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="panel panel-details" id="details">
+            <div class="panel-header">
+              <div>
+                <p class="label">Flight Details</p>
+                <h3>Selected Aircraft</h3>
+              </div>
+            </div>
+
+            <dl class="details-grid">
+              <div>
+                <dt>Callsign</dt>
+                <dd>BGD 742</dd>
+              </div>
+              <div>
+                <dt>Altitude</dt>
+                <dd>31,000 ft</dd>
+              </div>
+              <div>
+                <dt>Speed</dt>
+                <dd>450 kt</dd>
+              </div>
+              <div>
+                <dt>Heading</dt>
+                <dd>128°</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="panel panel-settings" id="settings">
+            <div class="panel-header">
+              <div>
+                <p class="label">Settings</p>
+                <h3>Preferences</h3>
+              </div>
+            </div>
+
+            <div class="settings-row">
+              <span>Refresh interval</span>
+              <strong>10 sec</strong>
+            </div>
+            <div class="settings-row">
+              <span>Theme</span>
+              <strong>Calm Light</strong>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
