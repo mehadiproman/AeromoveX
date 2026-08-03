@@ -1,0 +1,37 @@
+/* =============================================================
+   about.css — Styles specific to about.html
+   ============================================================= */
+
+/* ── About Content ── */
+.about-content {
+  margin-top: 20px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.about-content p {
+  margin: 0 0 16px;
+}
+
+.about-content h4 {
+  margin: 24px 0 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.about-content ul {
+  padding-left: 20px;
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.about-content ul li {
+  margin-bottom: 6px;
+}
+
+.about-version {
+  margin-top: 32px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}

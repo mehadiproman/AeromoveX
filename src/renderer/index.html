@@ -5,150 +5,163 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="AeroMoveX dashboard for live aircraft tracking." />
     <title>AeroMoveX | Live Flight Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/global.css" />
+    <link rel="stylesheet" href="./styles/index.css" />
+    <!-- Leaflet Map CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   </head>
   <body>
     <div class="app-shell">
-      <aside class="sidebar">
-        <div class="brand">
-          <span class="brand-mark">✈</span>
-          <div>
-            <p class="brand-kicker">AeroMoveX</p>
-            <h1>Flight Control</h1>
-          </div>
-        </div>
-
-        <nav class="nav">
-          <a class="nav-item active" href="#dashboard">Dashboard</a>
-          <a class="nav-item" href="#watchlist">Watchlist</a>
-          <a class="nav-item" href="#details">Flight Details</a>
-          <a class="nav-item" href="#settings">Settings</a>
-        </nav>
-
-        <section class="sidebar-card">
-          <p class="label">Region</p>
-          <h2>Bangladesh Airspace</h2>
-          <p class="muted">A focused interface for live aircraft monitoring.</p>
-        </section>
-      </aside>
-
       <main class="content" id="dashboard">
-        <header class="hero">
-          <div>
-            <p class="eyebrow">Live Aircraft Tracking</p>
-            <h2>Monitor flights with a calm, desktop-first layout.</h2>
+        <header class="panel" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; margin-bottom: 16px; flex-wrap: wrap; gap: 16px;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <span class="brand-mark" style="display: grid; place-items: center; width: 40px; height: 40px; border-radius: var(--radius-md); color: white; background: var(--primary); font-size: 1.2rem;">✈</span>
+            <div>
+              <p class="eyebrow" style="margin: 0; font-size: 0.65rem;">AEROMOVEX</p>
+              <h2 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Bangladesh Airspace</h2>
+            </div>
           </div>
 
-          <div class="hero-actions">
-            <button type="button" class="button button-primary">Refresh Data</button>
-            <button type="button" class="button button-secondary">Save Watchlist</button>
+          <div style="flex-grow: 1; display: flex; justify-content: center;">
+            <nav class="header-nav">
+              <a href="index.html" class="active">Live Map</a>
+              <a href="airports.html">Airports</a>
+              <a href="about.html">About</a>
+            </nav>
+          </div>
+
+          <div class="hero-actions" style="gap: 10px;">
+            <button type="button" id="btn-refresh" class="button button-primary" style="padding: 8px; display: grid; place-items: center;" aria-label="Refresh Data" title="Refresh Data">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6"></path><path d="M21.34 15.57a10 10 0 1 1-.59-9.21l5.25 4.24"></path></svg>
+            </button>
+            <button type="button" id="btn-watchlist-toggle" class="button button-secondary">Watchlist Current</button>
           </div>
         </header>
 
-        <section class="stats-grid" aria-label="Flight statistics">
-          <article class="stat-card">
-            <p class="label">Active Flights</p>
-            <strong>128</strong>
-            <span class="muted">Across the selected region</span>
-          </article>
-          <article class="stat-card">
-            <p class="label">Watchlist</p>
-            <strong>12</strong>
-            <span class="muted">Saved flights loading locally</span>
-          </article>
-          <article class="stat-card">
-            <p class="label">Notifications</p>
-            <strong>On</strong>
-            <span class="muted">Native desktop alerts enabled</span>
-          </article>
-        </section>
-
         <section class="dashboard-grid">
-          <article class="panel panel-map">
-            <div class="panel-header">
-              <div>
-                <p class="label">Map</p>
-                <h3>Bangladesh Flight View</h3>
+          <div class="col-main" style="display: flex; flex-direction: column; gap: 16px;">
+            <article class="panel panel-map">
+              <div class="panel-header">
+                <div>
+                  <p class="label">Map</p>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <h3>Bangladesh Flight View</h3>
+                    <span style="font-size: 0.75rem; font-weight: 600; color: var(--accent); background: rgba(217, 119, 6, 0.1); padding: 2px 8px; border-radius: 999px;">
+                      <span id="active-flights-count">0</span> Active
+                    </span>
+                  </div>
+                </div>
+                <span class="status-pill" id="map-status">Live</span>
               </div>
-              <span class="status-pill">Live</span>
-            </div>
-            <div class="map-placeholder">
-              <div class="map-glow"></div>
-              <p>Interactive map placeholder</p>
-            </div>
-          </article>
+              <div id="map" style="height: 520px; border-radius: var(--radius-md); border: 1px solid var(--line); z-index: 1;"></div>
+            </article>
 
-          <article class="panel panel-list" id="watchlist">
-            <div class="panel-header">
-              <div>
-                <p class="label">Watchlist</p>
-                <h3>Saved Flights</h3>
+            <article class="panel panel-details" id="details">
+              <div class="panel-header" style="margin-bottom: 24px;">
+                <h3 style="font-size: 1.1rem; font-weight: 600;">Selected Aircraft</h3>
               </div>
-            </div>
 
-            <ul class="flight-list">
-              <li>
-                <strong>BGD 742</strong>
-                <span>Dhaka to Chattogram</span>
-              </li>
-              <li>
-                <strong>BGD 391</strong>
-                <span>Sylhet to Dhaka</span>
-              </li>
-              <li>
-                <strong>BGD 205</strong>
-                <span>Cox's Bazar to Dhaka</span>
-              </li>
-            </ul>
-          </article>
+              <div class="aircraft-split-view">
+                <div class="aircraft-image-container">
+                  <div class="aircraft-placeholder-img">
+                    <span style="font-size: 2.5rem; margin-bottom: 12px;">✈️</span>
+                    <span style="font-size: 0.8rem; color: var(--muted);">No image available</span>
+                  </div>
+                </div>
+                
+                <div class="aircraft-info" style="display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                      <div id="detail-callsign-header">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <strong id="detail-callsign-title" style="font-size: 1.4rem; font-weight: 700;">--</strong>
+                          <span style="color: #fbbf24; font-size: 1.1rem;">★</span>
+                        </div>
+                        <div id="detail-airline" style="font-size: 0.85rem; color: var(--muted); margin-top: 4px;">--</div>
+                      </div>
+                      <span id="detail-source" class="status-pill" style="padding: 4px 12px; font-size: 0.75rem; background: rgba(16, 185, 129, 0.15); color: #10b981; border-radius: 6px; font-weight: 600;">En Route</span>
+                    </div>
 
-          <article class="panel panel-details" id="details">
-            <div class="panel-header">
-              <div>
-                <p class="label">Flight Details</p>
-                <h3>Selected Aircraft</h3>
-              </div>
-            </div>
+                    <dl class="details-grid-bordered">
+                      <div>
+                        <dt>CALLSIGN</dt>
+                        <dd id="detail-callsign">--</dd>
+                      </div>
+                      <div class="divider"></div>
+                      <div>
+                        <dt>ALTITUDE</dt>
+                        <dd id="detail-altitude">--</dd>
+                      </div>
+                      <div class="divider"></div>
+                      <div>
+                        <dt>SPEED</dt>
+                        <dd id="detail-speed">--</dd>
+                      </div>
+                      <div class="divider"></div>
+                      <div>
+                        <dt>HEADING</dt>
+                        <dd id="detail-heading">--</dd>
+                      </div>
+                    </dl>
+                  </div>
 
-            <dl class="details-grid">
-              <div>
-                <dt>Callsign</dt>
-                <dd>BGD 742</dd>
-              </div>
-              <div>
-                <dt>Altitude</dt>
-                <dd>31,000 ft</dd>
-              </div>
-              <div>
-                <dt>Speed</dt>
-                <dd>450 kt</dd>
-              </div>
-              <div>
-                <dt>Heading</dt>
-                <dd>128°</dd>
-              </div>
-            </dl>
-          </article>
+                  <div class="flight-progress-container" id="detail-progress-container" style="display: none; margin-top: 24px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                      <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                        <span id="detail-origin-code" style="font-weight: 700; font-size: 1rem; color: var(--text);">--</span>
+                        <span id="detail-origin-name" style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">--</span>
+                      </div>
+                      
+                      <div style="flex: 1; margin: 0 20px; display: flex; flex-direction: column; position: relative;">
+                        <div class="progress-bar-bg" style="width: 100%; height: 3px; background: var(--line); border-radius: 999px; position: relative; margin-top: 8px;">
+                          <div id="detail-progress-bar" style="position: absolute; top: 0; left: 0; width: 0%; height: 100%; background: #8b5cf6; border-radius: 999px; transition: width 0.5s ease;"></div>
+                          <span style="position: absolute; left: 0%; top: -8px; color: #8b5cf6; font-size: 1rem; transform: translateX(-50%); transition: left 0.5s ease;" id="detail-progress-icon">✈️</span>
+                        </div>
+                        <div style="text-align: center; margin-top: 12px;">
+                          <span id="detail-progress-percent" style="font-size: 0.75rem; color: var(--muted);">--</span>
+                        </div>
+                      </div>
 
-          <article class="panel panel-settings" id="settings">
-            <div class="panel-header">
-              <div>
-                <p class="label">Settings</p>
-                <h3>Preferences</h3>
+                      <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <span id="detail-dest-code" style="font-weight: 700; font-size: 1rem; color: var(--text);">--</span>
+                        <span id="detail-dest-name" style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">--</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            </article>
+          </div>
 
-            <div class="settings-row">
-              <span>Refresh interval</span>
-              <strong>10 sec</strong>
-            </div>
-            <div class="settings-row">
-              <span>Theme</span>
-              <strong>Calm Light</strong>
-            </div>
-          </article>
+          <div class="col-side" style="display: flex; flex-direction: column; gap: 16px;">
+            <article class="panel panel-list" id="watchlist">
+              <div class="panel-header" style="margin-bottom: 12px;">
+                <div>
+                  <p class="label">Watchlist</p>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <h3>Saved Flights</h3>
+                    <span style="font-size: 0.75rem; font-weight: 600; color: var(--text); background: var(--bg-accent); padding: 2px 8px; border-radius: 999px;">
+                      <span id="watchlist-count">0</span> Saved
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <ul class="flight-list enhanced-list" id="watchlist-list">
+                <li class="empty-watchlist">
+                  <span>No flights saved</span>
+                </li>
+              </ul>
+            </article>
+          </div>
         </section>
       </main>
     </div>
+    <script src="./scripts/app.js"></script>
   </body>
 </html>

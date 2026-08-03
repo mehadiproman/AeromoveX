@@ -1,0 +1,167 @@
+/* =============================================================
+   index.css — Styles specific to index.html (Live Map Dashboard)
+   ============================================================= */
+
+/* ── Dashboard Layout ── */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(360px, 1fr);
+  gap: 16px;
+}
+
+/* ── Map Panel ── */
+.panel-map {
+  min-height: 420px;
+}
+
+.map-placeholder {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 320px;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px dashed rgba(18, 32, 26, 0.14);
+  background:
+    radial-gradient(circle at center, rgba(21, 63, 52, 0.12), transparent 35%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.2));
+}
+
+.map-placeholder p {
+  position: relative;
+  z-index: 1;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.map-glow {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 141, 55, 0.28), transparent 68%);
+}
+
+/* ── Flight List (Watchlist) ── */
+.flight-list {
+  list-style: none;
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  margin: 0;
+}
+
+.flight-list li,
+.details-grid > div,
+.settings-row {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.flight-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+
+.flight-list span,
+.details-grid dt,
+.settings-row span {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* ── Details Grid ── */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.details-grid-bordered {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin: 0;
+}
+
+.details-grid-bordered > div {
+  flex: 1;
+}
+
+.details-grid-bordered .divider {
+  width: 1px;
+  height: 36px;
+  background: var(--line);
+  flex: 0 0 1px;
+  margin: 0 16px;
+}
+
+.details-grid dt,
+.details-grid-compact dt,
+.details-grid-bordered dt {
+  margin-bottom: 6px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.details-grid dd,
+.details-grid-compact dd,
+.details-grid-bordered dd {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ── Aircraft Split View (Details Panel) ── */
+.aircraft-split-view {
+  display: flex;
+  gap: 20px;
+}
+
+.aircraft-image-container {
+  flex: 0 0 160px;
+}
+
+.aircraft-placeholder-img {
+  width: 100%;
+  height: 120px;
+  background: var(--bg-accent);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--line);
+}
+
+.aircraft-info {
+  flex: 1;
+}
+
+/* ── Enhanced List ── */
+.enhanced-list li {
+  padding: 12px 14px;
+}
+
+.enhanced-list .flight-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
