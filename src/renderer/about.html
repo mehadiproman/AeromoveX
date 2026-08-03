@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AeroMoveX | About</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/global.css" />
+    <link rel="stylesheet" href="./styles/about.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <main class="content">
+        <header class="panel" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; margin-bottom: 16px; flex-wrap: wrap; gap: 16px;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <span class="brand-mark" style="display: grid; place-items: center; width: 40px; height: 40px; border-radius: var(--radius-md); color: white; background: var(--primary); font-size: 1.2rem;">✈</span>
+            <div>
+              <p class="eyebrow" style="margin: 0; font-size: 0.65rem;">AEROMOVEX</p>
+              <h2 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Bangladesh Airspace</h2>
+            </div>
+          </div>
+
+          <div style="flex-grow: 1; display: flex; justify-content: center;">
+            <nav class="header-nav">
+              <a href="index.html">Live Map</a>
+              <a href="airports.html">Airports</a>
+              <a href="about.html" class="active">About</a>
+            </nav>
+          </div>
+
+          <div class="hero-actions" style="gap: 10px;">
+            <button type="button" class="button button-secondary" onclick="window.location.href='index.html'">Back to Map</button>
+          </div>
+        </header>
+
+        <section class="panel" style="line-height: 1.6;">
+          <div class="panel-header">
+            <div>
+              <p class="label">Information</p>
+              <h3>About AeroMoveX</h3>
+            </div>
+          </div>
+          <div style="margin-top: 20px; color: var(--text);">
+            <p><strong>AeroMoveX</strong> is a sleek, modern flight tracking dashboard dedicated to visualizing air traffic within Bangladesh Airspace.</p>
+            <p>Built with Electron and Leaflet, the application provides real-time and simulated insights into aircraft movements, telemetry (speed, altitude, heading), and active routes across major airports like Dhaka (DAC), Chattogram (CGP), and Sylhet (ZYL).</p>
+            <h4 style="margin-top: 24px; margin-bottom: 8px;">Features</h4>
+            <ul style="padding-left: 20px; color: var(--muted);">
+              <li>Live map rendering locked to Bangladesh bounds</li>
+              <li>Real-time telemetry and flight progress tracking</li>
+              <li>Saved Flights Watchlist</li>
+              <li>Modern, premium UI design</li>
+            </ul>
+            <p style="margin-top: 32px; font-size: 0.85rem; color: var(--muted);">Version 1.0.0</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
