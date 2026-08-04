@@ -1,40 +1,33 @@
-#                                                         AeroMoveX
+#                                                         FocusFlight
 
 ```text
             ✈
           /
          /
 ───────●────────────────
-        AeroMoveX
+        FocusFlight
 ```
+> **A journey-based focus timer desktop app built with Electron.**
 ---
-
-> **A modern Electron desktop app for tracking live aircraft using real-time flight data.**
-
 
 ## Overview
 
-**AeroMoveX** is a desktop application built with **Electron.js**, **Node.js**, **HTML**, **CSS**, and **JavaScript** that allows users to monitor live aircraft around the world using the OpenSky Network API.
+**FocusFlight** is a desktop productivity application built with **Electron.js**, **Node.js**, **HTML**, **CSS**, and **JavaScript** that transforms study sessions into visual journeys.
 
-The application provides a clean desktop interface for searching flights, viewing real-time aircraft information, managing a personal watchlist, and receiving native desktop notifications.
-
+Instead of a traditional timer, users select a destination and start a focus session. An animated airplane progresses toward the destination as the timer counts down. Each completed session is saved and contributes to daily and weekly productivity statistics.
 
 ## Features
 
-- Real-time aircraft tracking
-- Search flights by callsign
-- Display flight information
-  - Callsign
-  - Country of origin
-  - Altitude
-  - Speed
-  - Heading
-- Save favorite flights locally
-- Automatic watchlist loading
-- Native desktop notifications
-- Modern and responsive user interface
-
-
+- Focus timer with Start, Pause, Resume, and Reset
+- Journey-based progress animation (airplane moves toward destination)
+- Multiple destinations (Dhaka → Tokyo, Earth → Mars, etc.)
+- Session presets: 25, 50, 90 minutes
+- Session history with date and duration
+- Daily and weekly statistics with visual bar chart
+- Dark and Light theme support
+- Native desktop notifications on session completion
+- Local JSON data persistence
+- Modern, minimal UI inspired by Linear and Raycast
 
 ## Tech Stack
 
@@ -43,26 +36,35 @@ The application provides a clean desktop interface for searching flights, viewin
 - HTML5
 - CSS3
 - JavaScript (ES6+)
-- OpenSky Network API
-
-
 
 ## Project Structure
 
 ```
-AeroMoveX/
+FocusFlight/
 │
-├── assets/
 ├── data/
-│   └── watchlist.json
+│   ├── sessions.json
+│   └── settings.json
 │
-├── renderer/
-│   ├── index.html
-│   ├── style.css
-│   └── script.js
+├── src/
+│   ├── main/
+│   │   └── main.js
+│   ├── preload/
+│   │   └── preload.js
+│   └── renderer/
+│       ├── index.html
+│       ├── scripts/
+│       │   ├── app.js
+│       │   ├── timer.js
+│       │   ├── history.js
+│       │   ├── stats.js
+│       │   └── settings.js
+│       └── styles/
+│           └── global.css
 │
-├── main.js
-├── preload.js
+├── docs/
+│   └── planning.md
+│
 ├── package.json
 └── README.md
 ```
@@ -73,27 +75,27 @@ AeroMoveX/
 
 This project demonstrates:
 
-- Electron application architecture
-- Main Process and Renderer Process
-- Inter-Process Communication (IPC)
-- Working with external REST APIs
-- Local file storage using Node.js
-- Native desktop notifications
-- Modern JavaScript development
+- Electron application architecture (Main + Renderer + Preload)
+- Inter-Process Communication (IPC) — `ipcMain.handle` / `ipcRenderer.invoke`
+- Context isolation and secure preload bridge
+- Local file I/O using Node.js `fs` module
+- Native desktop notifications via Electron
+- State management with JavaScript closures (IIFE modules)
+- DOM manipulation and event handling
+- CSS custom properties for theming
+- `setInterval` / `clearInterval` for countdown timers
+- Array methods (`filter`, `reduce`, `map`) for data aggregation
 
+---
 
+## How to Run
 
-## Future Improvements
+```bash
+npm install
+npm start
+```
 
-- Interactive map visualization
-- Flight history
-- Dark mode
-- Automatic data refresh
-- Airport information
-- Weather integration
-- Flight route visualization
-
-
+---
 
 ## License
 

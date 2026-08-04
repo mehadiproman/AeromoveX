@@ -5,3 +5,5 @@ build/
 *.log
 .DS_Store
 planning.md
+docs/
+package-lock.json

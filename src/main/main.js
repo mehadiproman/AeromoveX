@@ -1,10 +1,109 @@
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
+// =============================================================================
+// FocusFlight — Main Process
+// =============================================================================
+// This is the main Electron process. It runs in Node.js and has full access
+// to the operating system. The renderer (UI) communicates with this process
+// through IPC channels exposed via preload.js.
+//
+// Responsibilities:
+//   1. Create and manage the application window
+//   2. Handle file I/O (sessions.json, settings.json)
+//   3. Show native desktop notifications
+// =============================================================================
 
+const { app, BrowserWindow, ipcMain, Notification } = require('electron');
+const path = require('path');
+const fs = require('fs');
+
+// ---------------------------------------------------------------------------
+// File paths for persistent data
+// ---------------------------------------------------------------------------
+const DATA_DIR = path.join(__dirname, '..', '..', 'data');
+const SESSIONS_PATH = path.join(DATA_DIR, 'sessions.json');
+const SETTINGS_PATH = path.join(DATA_DIR, 'settings.json');
+
+// ---------------------------------------------------------------------------
+// Helper: Read JSON file safely
+// ---------------------------------------------------------------------------
+function readJSON(filePath, fallback) {
+  try {
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    return JSON.parse(raw);
+  } catch {
+    return fallback;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Helper: Write JSON file
+// ---------------------------------------------------------------------------
+function writeJSON(filePath, data) {
+  // Ensure the data directory exists
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+}
+
+// ---------------------------------------------------------------------------
+// IPC Handlers — Renderer → Main
+// ---------------------------------------------------------------------------
+
+// Save a completed session
+ipcMain.handle('save-session', async (_event, session) => {
+  const sessions = readJSON(SESSIONS_PATH, []);
+  session.id = sessions.length > 0 ? sessions[sessions.length - 1].id + 1 : 1;
+  sessions.push(session);
+  writeJSON(SESSIONS_PATH, sessions);
+  return session;
+});
+
+// Load all sessions
+ipcMain.handle('load-sessions', async () => {
+  return readJSON(SESSIONS_PATH, []);
+});
+
+// Save settings
+ipcMain.handle('save-settings', async (_event, settings) => {
+  writeJSON(SETTINGS_PATH, settings);
+  return settings;
+});
+
+// Load settings
+ipcMain.handle('load-settings', async () => {
+  return readJSON(SETTINGS_PATH, {
+    theme: 'dark',
+    notifications: true,
+    defaultTimer: 50,
+  });
+});
+
+// Show a native desktop notification
+ipcMain.handle('show-notification', async (_event, title, body) => {
+  if (Notification.isSupported()) {
+    const notification = new Notification({ title, body });
+    notification.show();
+  }
+  return true;
+});
+
+// Log frontend errors for debugging
+ipcMain.on('console-error', (_event, message) => {
+  console.log('\n!!! FRONTEND ERROR !!!');
+  console.log(message);
+  console.log('!!! END FRONTEND ERROR !!!\n');
+});
+
+// ---------------------------------------------------------------------------
+// Window Creation
+// ---------------------------------------------------------------------------
 function createWindow() {
   const window = new BrowserWindow({
     width: 1280,
     height: 800,
+    minWidth: 900,
+    minHeight: 600,
+    backgroundColor: '#0a0a0f',
     webPreferences: {
       preload: path.join(__dirname, '..', 'preload', 'preload.js'),
       contextIsolation: true,
@@ -12,9 +111,15 @@ function createWindow() {
     },
   });
 
+  // Remove the default menu bar for a cleaner look
+  window.setMenuBarVisibility(false);
+
   window.loadFile(path.join(__dirname, '..', 'renderer', 'index.html'));
 }
 
+// ---------------------------------------------------------------------------
+// App Lifecycle
+// ---------------------------------------------------------------------------
 app.whenReady().then(() => {
   createWindow();
 
