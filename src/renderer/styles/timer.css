@@ -1,172 +1,403 @@
 /* =============================================================================
-   FocusFlight — Timer Styles
-   Core timer UI: destinations, presets, flight track, countdown, controls.
+   FocusFlight — Redesigned Flight Timer Card (Eye-Soothing Spacious Layout)
    ============================================================================= */
 
-.timer-layout {
+.flight-timer-card {
+  width: 100%;
+  padding: 40px 52px 52px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 32px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 520px;
+  gap: 40px;
+  box-shadow: var(--shadow-hover);
 }
 
-/* ── Section Card ── */
-.timer-section {
-  background: var(--bg-1);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px;
-}
-
-.section-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-2);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 12px;
-}
-
-/* ── Destinations ── */
-.destination-selector {
+/* ── 1. Telemetry Arc Header ── */
+.telemetry-arc-header {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  position: relative;
+  margin-top: -12px;
 }
 
-.dest-chip {
-  padding: 5px 12px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  background: var(--bg-2);
-  color: var(--text-1);
+.node-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.node-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.node-icon.target-icon {
+  background: rgba(124, 92, 255, 0.14);
+  color: #7C5CFF;
+  border: 1px solid rgba(124, 92, 255, 0.3);
+}
+
+.node-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.custom-dropdown-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-dropdown-trigger {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 2px 4px 2px 0;
+  border-radius: 6px;
+  transition: color var(--transition);
+}
+
+.custom-dropdown-trigger:hover {
+  color: #A78BFA;
+}
+
+.dropdown-chevron-icon {
+  width: 12px;
+  height: 12px;
+  color: #A78BFA;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.custom-dropdown-wrap.active .dropdown-chevron-icon {
+  transform: rotate(180deg);
+}
+
+.custom-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 230px;
+  background: var(--bg-card);
+  border: 1px solid rgba(124, 92, 255, 0.3);
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 20px rgba(124, 92, 255, 0.15);
+  backdrop-filter: blur(16px);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.96);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dest-node .custom-dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+.custom-dropdown-wrap.active .custom-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+
+
+.dropdown-options-list {
+  max-height: 180px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dropdown-options-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dropdown-options-list::-webkit-scrollbar-thumb {
+  background: rgba(124, 92, 255, 0.3);
+  border-radius: 4px;
+}
+
+.dropdown-option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+}
+
+.dropdown-option-item:hover,
+.dropdown-option-item.selected {
+  background: rgba(124, 92, 255, 0.16);
+  color: #FFF;
+}
+
+.dropdown-option-item.selected {
+  color: #A78BFA;
+  font-weight: 700;
+}
+
+.option-dist-badge {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  background: var(--bg-inset);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.dropdown-option-item:hover .option-dist-badge {
+  color: #A78BFA;
+  background: rgba(124, 92, 255, 0.2);
+}
+
+.node-sub {
   font-size: 12px;
   font-weight: 500;
-  cursor: pointer;
-  font-family: var(--font);
-  transition: border-color var(--transition), color var(--transition);
+  color: var(--text-tertiary);
+  margin-top: 1px;
+  padding-left: 2px;
 }
 
-.dest-chip:hover { border-color: var(--accent); color: var(--text-0); }
-.dest-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-/* ── Presets ── */
-.timer-presets {
+.arc-map-section {
+  flex: 1;
   display: flex;
-  gap: 8px;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
 }
 
-.preset-btn {
-  padding: 5px 18px;
+.arc-map-container {
+  width: 100%;
+  height: 64px;
+  position: relative;
+  overflow: visible;
+}
+
+.arc-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.telemetry-center-metrics {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-top: -2px;
+}
+
+.metric-label {
+  color: var(--text-tertiary);
+}
+
+.metric-val {
+  color: #7C5CFF;
+  font-weight: 700;
+}
+
+.metric-dot {
+  color: var(--text-tertiary);
+  margin: 0 6px;
+}
+
+/* ── 3. Giant Digital Clock Display ── */
+.giant-timer-display {
+  font-size: 108px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin: 28px 0 32px;
+}
+
+/* ── 4. Focus Time Customization Selector Bar ── */
+.duration-selector-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.duration-bar-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  margin-right: 10px;
+}
+
+.duration-chip {
+  padding: 10px 22px;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  background: var(--bg-2);
-  color: var(--text-1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   font-family: var(--font);
-  transition: border-color var(--transition);
+  transition: all var(--transition);
 }
 
-.preset-btn:hover { border-color: var(--accent); color: var(--text-0); }
-.preset-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-
-/* ── Flight Track ── */
-.flight-track-section {
-  background: var(--bg-1);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px 18px;
+body:not(.dark-theme) .duration-chip {
+  border-color: var(--border);
+  background: var(--bg-card);
 }
 
-.flight-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
+.duration-chip:hover {
+  background: var(--bg-inset);
+  color: var(--text-primary);
 }
 
-.flight-label .label-city { font-size: 13px; font-weight: 600; color: var(--text-0); }
-.flight-label .label-tag { font-size: 11px; color: var(--text-2); }
+.duration-chip.active {
+  background: rgba(124, 92, 255, 0.15);
+  color: #A58BFF;
+  border: 1.5px solid #7C5CFF;
+  box-shadow: 0 0 14px rgba(124, 92, 255, 0.25);
+}
 
-.flight-track {
-  position: relative;
-  height: 36px;
+.custom-duration-wrap {
   display: flex;
   align-items: center;
+  gap: 8px;
+  margin-left: 4px;
 }
 
-.track-line {
-  position: absolute;
-  left: 0; right: 0;
-  height: 2px;
-  background: var(--bg-3);
-  border-radius: 1px;
-}
-
-.track-progress {
-  position: absolute;
-  left: 0;
-  height: 2px;
-  width: 0%;
-  background: var(--accent);
-  border-radius: 1px;
-  transition: width 0.5s ease;
-}
-
-.track-plane {
-  position: absolute;
-  left: 0%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 18px;
-  transition: left 0.5s ease;
-  z-index: 1;
-}
-
-.track-dots {
-  position: absolute;
-  left: 0; right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 2px;
-}
-
-.track-dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--bg-3);
-}
-
-.track-dot.passed { background: var(--accent); }
-
-/* ── Timer Display ── */
-.timer-display {
+.custom-chip-input {
+  width: 124px;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font);
   text-align: center;
-  padding: 12px 0;
+  outline: none;
+  transition: all var(--transition);
 }
 
-.timer-time {
-  font-size: 48px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  color: var(--text-0);
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-  margin-bottom: 4px;
+body:not(.dark-theme) .custom-chip-input {
+  border-color: var(--border);
+  background: var(--bg-card);
 }
 
-.timer-percent {
-  font-size: 12px;
-  color: var(--text-2);
+.custom-chip-input:focus {
+  border-color: #7C5CFF;
+  box-shadow: 0 0 10px rgba(124, 92, 255, 0.35);
 }
 
-/* ── Controls ── */
-.timer-controls {
+.btn-custom-set {
+  padding: 10px 24px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid #7C5CFF;
+  background: transparent;
+  color: #7C5CFF;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all var(--transition);
+}
+
+.btn-custom-set:hover {
+  background: #7C5CFF;
+  color: #FFFFFF;
+}
+
+/* ── 5. Action Control Buttons Row ── */
+.timer-controls-row {
   display: flex;
-  gap: 10px;
+  align-items: center;
   justify-content: center;
+  gap: 20px;
+  margin-top: 18px;
+}
+
+.btn-control {
+  padding: 15px 36px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-start-focus {
+  background: linear-gradient(135deg, #6347FF 0%, #7A5AF8 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 22px rgba(99, 71, 255, 0.4);
+  padding: 15px 44px;
+}
+
+.btn-start-focus:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 26px rgba(99, 71, 255, 0.5);
+}
+
+.btn-secondary-action {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+body:not(.dark-theme) .btn-secondary-action {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+.btn-secondary-action:hover {
+  background: var(--bg-inset);
+  border-color: var(--border);
+}
+
+.btn-end-action {
+  background: rgba(255, 99, 99, 0.06);
+  border: 1px solid rgba(255, 99, 99, 0.25);
+  color: #FF6363;
+}
+
+.btn-end-action:hover {
+  background: rgba(255, 99, 99, 0.12);
+  border-color: rgba(255, 99, 99, 0.4);
 }

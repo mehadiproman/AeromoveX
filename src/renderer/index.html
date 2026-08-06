@@ -14,8 +14,6 @@
   <link rel="stylesheet" href="styles/global.css" />
   <link rel="stylesheet" href="styles/timer.css" />
   <link rel="stylesheet" href="styles/stats.css" />
-  <link rel="stylesheet" href="styles/history.css" />
-  <link rel="stylesheet" href="styles/settings.css" />
 </head>
 <body>
 
@@ -28,19 +26,13 @@
       </div>
     </div>
 
-    <nav class="top-nav">
-      <div class="nav-btn active" data-dropdown="focus" id="nav-focus">Focus</div>
-      <div class="nav-btn" data-dropdown="flights" id="nav-flights">Flights</div>
-      <div class="nav-btn" data-dropdown="roadmap" id="nav-roadmap">Roadmap</div>
-      <div class="nav-btn" data-dropdown="stats" id="nav-stats">Stats</div>
-      <div class="nav-btn" data-dropdown="history" id="nav-history">History</div>
-      <div class="nav-btn" data-dropdown="settings" id="nav-settings">Settings</div>
-    </nav>
-
     <div class="top-bar-right">
       <div class="streak-badge" id="streak-badge">
         <i data-lucide="flame" style="width: 14px; height: 14px;"></i>
         <span id="streak-count">0</span> days
+      </div>
+      <div class="nav-icon" id="btn-theme-toggle" title="Toggle Dark/Light Mode (White to Black)">
+        <i data-lucide="moon" id="theme-icon" style="width: 18px; height: 18px;"></i>
       </div>
       <div class="nav-icon" title="Analytics">
         <i data-lucide="bar-chart-2" style="width: 18px; height: 18px;"></i>
@@ -51,70 +43,98 @@
     </div>
   </header>
 
-  <!-- ── Dropdown Panel (for History, Settings, etc.) ── -->
-  <div class="dropdown-overlay" id="dropdown-overlay">
-    <div class="dropdown-panel" id="dropdown-panel"></div>
-  </div>
-
   <!-- ── Main Dashboard ── -->
   <main class="dashboard">
 
     <!-- ══════════════ LEFT COLUMN (~60%) ══════════════ -->
     <div class="dashboard-left">
 
-      <!-- Unified Single Hero Card -->
-      <div class="card unified-hero-card">
-        <!-- 1. Mission Header Row -->
-        <div class="mission-header">
-          <div>
-            <div class="mission-label-row">
-              <span class="mission-label">Current Mission</span>
-              <button class="mission-edit-btn" id="mission-edit-btn" title="Edit mission">
-                <i data-lucide="pencil" style="width: 13px; height: 13px;"></i>
-              </button>
+      <!-- Redesigned Flight Timer Card -->
+      <div class="card flight-timer-card">
+        
+        <!-- 1. Top Telemetry Arc & Nodes Header -->
+        <div class="telemetry-arc-header">
+          <!-- Origin Node (Dhaka) -->
+          <div class="node-item origin-node">
+            <div class="node-icon target-icon">
+              <i data-lucide="disc" style="width: 18px; height: 18px;"></i>
             </div>
-            <h2 class="mission-name" id="mission-name">Backend Engineering Notes</h2>
+            <div class="node-info">
+              <div class="custom-dropdown-wrap" id="origin-dropdown-wrap">
+                <button class="custom-dropdown-trigger" id="origin-dropdown-trigger">
+                  <span id="origin-selected-text">Dhaka (DAC)</span>
+                  <i data-lucide="chevron-down" class="dropdown-chevron-icon"></i>
+                </button>
+                <div class="custom-dropdown-menu" id="origin-dropdown-menu">
+                  <div class="dropdown-options-list" id="origin-options-list"></div>
+                </div>
+              </div>
+              <div class="node-sub">Origin</div>
+            </div>
           </div>
-          <div class="mission-badge" id="mission-badge">
-            <i data-lucide="clock" style="width: 14px; height: 14px;"></i>
-            <span id="mission-duration-label">50 min</span>
+
+          <!-- Arc Flight Map SVG & Center Metrics -->
+          <div class="arc-map-section">
+            <div class="arc-map-container" id="map-container">
+              <!-- Rendered by timer.js -->
+            </div>
+            <div class="telemetry-center-metrics">
+              <span class="metric-label">Distance Left:</span>
+              <span class="metric-val" id="metric-distance">248 km</span>
+              <span class="metric-dot">•</span>
+              <span class="metric-label">Estimated Time:</span>
+              <span class="metric-val" id="metric-est-time">50 min</span>
+            </div>
+          </div>
+
+          <!-- Destination Node (Chittagong) -->
+          <div class="node-item dest-node">
+            <div class="node-icon target-icon">
+              <i data-lucide="disc" style="width: 18px; height: 18px;"></i>
+            </div>
+            <div class="node-info">
+              <div class="custom-dropdown-wrap" id="dest-dropdown-wrap">
+                <button class="custom-dropdown-trigger" id="dest-dropdown-trigger">
+                  <span id="dest-selected-text">Chittagong (CGP)</span>
+                  <i data-lucide="chevron-down" class="dropdown-chevron-icon"></i>
+                </button>
+                <div class="custom-dropdown-menu" id="dest-dropdown-menu">
+                  <div class="dropdown-options-list" id="dest-options-list"></div>
+                </div>
+              </div>
+              <div class="node-sub">Destination</div>
+            </div>
           </div>
         </div>
 
-        <!-- 2. Integrated Flight Telemetry Map -->
-        <div class="integrated-map-wrap">
-          <div class="map-container" id="map-container">
-            <!-- Rendered by timer.js -->
+        <!-- 3. Giant Digital Clock Display -->
+        <div class="giant-timer-display" id="timer-time">50:00</div>
+
+        <!-- 4. Focus Time Customization Preset Bar -->
+        <div class="duration-selector-bar" id="duration-selector-bar">
+          <span class="duration-bar-label">Focus Time:</span>
+          <button class="duration-chip" data-mins="15">15m</button>
+          <button class="duration-chip" data-mins="25">25m</button>
+          <button class="duration-chip" data-mins="45">45m</button>
+          <button class="duration-chip active" data-mins="50">50m</button>
+          <button class="duration-chip" data-mins="60">60m</button>
+          <div class="custom-duration-wrap">
+            <input type="number" id="custom-minutes-input" min="1" max="720" value="1" placeholder="Custom" class="custom-chip-input" />
+            <button class="btn-custom-set" id="btn-custom-set">Set</button>
           </div>
         </div>
 
-        <!-- 3. Focus Timer & Controls -->
-        <div class="timer-section-wrap">
-          <div class="timer-top-row">
-            <div></div> <!-- Spacer -->
-            <button class="ambient-toggle" id="ambient-toggle">
-              <i data-lucide="monitor" style="width: 14px; height: 14px;"></i> Ambient
-            </button>
-          </div>
-
-          <div class="timer-time" id="timer-time">50:00</div>
-
-          <div class="timer-progress-track">
-            <div class="timer-progress-bar" id="timer-progress-bar" style="width: 0%;"></div>
-          </div>
-          <div class="timer-progress-label" id="timer-progress-label">0% complete</div>
-
-          <div class="timer-controls">
-            <button class="btn btn-primary" id="btn-pause">
-              <i data-lucide="play" style="width: 14px; height: 14px;"></i> Start
-            </button>
-            <button class="btn btn-outline" id="btn-reset">
-              <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i> Reset
-            </button>
-            <button class="btn btn-outline" id="btn-end">
-              <i data-lucide="square" style="width: 14px; height: 14px;"></i> End
-            </button>
-          </div>
+        <!-- 5. Action Controls Buttons Row -->
+        <div class="timer-controls-row">
+          <button class="btn-control btn-start-focus" id="btn-pause">
+            <i data-lucide="play" style="width: 16px; height: 16px;"></i> <span id="btn-pause-text">Start Focus</span>
+          </button>
+          <button class="btn-control btn-secondary-action" id="btn-reset">
+            <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i> Reset
+          </button>
+          <button class="btn-control btn-end-action" id="btn-end">
+            <i data-lucide="square" style="width: 16px; height: 16px; color: #FF6363;"></i> <span style="color: #FF6363;">End Session</span>
+          </button>
         </div>
 
       </div>
@@ -136,32 +156,40 @@
             <div class="stat-icon-square purple">
               <i data-lucide="clock" style="width: 18px; height: 18px;"></i>
             </div>
-            <span class="pilot-stat-label">Focus Hours Today</span>
-            <span class="pilot-stat-val" id="stat-hours-today">0.0 h</span>
+            <div class="pilot-stat-content">
+              <span class="pilot-stat-label">Focus Hours Today</span>
+              <span class="pilot-stat-val" id="stat-hours-today">0.0 h</span>
+            </div>
           </div>
 
           <div class="pilot-stat-item">
             <div class="stat-icon-square purple">
               <i data-lucide="calendar" style="width: 18px; height: 18px;"></i>
             </div>
-            <span class="pilot-stat-label">Focus Hours This Week</span>
-            <span class="pilot-stat-val" id="stat-hours-week">0.0 h</span>
+            <div class="pilot-stat-content">
+              <span class="pilot-stat-label">Focus Hours This Week</span>
+              <span class="pilot-stat-val" id="stat-hours-week">0.0 h</span>
+            </div>
           </div>
 
           <div class="pilot-stat-item">
             <div class="stat-icon-square orange">
               <i data-lucide="flame" style="width: 18px; height: 18px;"></i>
             </div>
-            <span class="pilot-stat-label">Current Streak</span>
-            <span class="pilot-stat-val" id="stat-current-streak">0 days</span>
+            <div class="pilot-stat-content">
+              <span class="pilot-stat-label">Current Streak</span>
+              <span class="pilot-stat-val" id="stat-current-streak">0 days</span>
+            </div>
           </div>
 
           <div class="pilot-stat-item">
             <div class="stat-icon-square yellow">
               <i data-lucide="trophy" style="width: 18px; height: 18px;"></i>
             </div>
-            <span class="pilot-stat-label">Longest Streak</span>
-            <span class="pilot-stat-val" id="stat-longest-streak">0 days</span>
+            <div class="pilot-stat-content">
+              <span class="pilot-stat-label">Longest Streak</span>
+              <span class="pilot-stat-val" id="stat-longest-streak">0 days</span>
+            </div>
           </div>
         </div>
       </div>
@@ -197,11 +225,6 @@
 
     </div>
 
-    <!-- Bottom Quote Footer -->
-    <div class="quote-footer">
-      <span class="quote-mark">“</span> Every minute of focus builds your future. <span class="quote-mark">”</span>
-    </div>
-
   </main>
 
   <!-- ── Session Complete Modal ── -->
@@ -223,9 +246,6 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="scripts/timer.js"></script>
   <script src="scripts/dashboard.js"></script>
-  <script src="scripts/history.js"></script>
-  <script src="scripts/stats.js"></script>
-  <script src="scripts/settings.js"></script>
   <script src="scripts/app.js"></script>
 
 </body>
