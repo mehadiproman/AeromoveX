@@ -72,7 +72,6 @@ ipcMain.handle('save-settings', async (_event, settings) => {
 // Load settings
 ipcMain.handle('load-settings', async () => {
   return readJSON(SETTINGS_PATH, {
-    theme: 'dark',
     notifications: true,
     defaultTimer: 50,
   });
@@ -99,11 +98,11 @@ ipcMain.on('console-error', (_event, message) => {
 // ---------------------------------------------------------------------------
 function createWindow() {
   const window = new BrowserWindow({
-    width: 1280,
-    height: 800,
-    minWidth: 900,
-    minHeight: 600,
-    backgroundColor: '#0a0a0f',
+    width: 1440,
+    height: 900,
+    minWidth: 1024,
+    minHeight: 700,
+    backgroundColor: '#F7F7F8',
     webPreferences: {
       preload: path.join(__dirname, '..', 'preload', 'preload.js'),
       contextIsolation: true,
