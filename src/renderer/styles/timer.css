@@ -262,8 +262,8 @@
 .duration-chip {
   padding: 10px 22px;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
   color: var(--text-secondary);
   font-size: 13px;
   font-weight: 600;
@@ -272,9 +272,9 @@
   transition: all var(--transition);
 }
 
-body:not(.dark-theme) .duration-chip {
-  border-color: var(--border);
-  background: var(--bg-card);
+.dark-theme .duration-chip {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .duration-chip:hover {
@@ -300,8 +300,8 @@ body:not(.dark-theme) .duration-chip {
   width: 124px;
   padding: 10px 20px;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
   color: var(--text-primary);
   font-size: 14px;
   font-weight: 600;
@@ -311,9 +311,9 @@ body:not(.dark-theme) .duration-chip {
   transition: all var(--transition);
 }
 
-body:not(.dark-theme) .custom-chip-input {
-  border-color: var(--border);
-  background: var(--bg-card);
+.dark-theme .custom-chip-input {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .custom-chip-input:focus {
@@ -376,14 +376,14 @@ body:not(.dark-theme) .custom-chip-input {
 }
 
 .btn-secondary-action {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   color: var(--text-primary);
 }
 
-body:not(.dark-theme) .btn-secondary-action {
-  background: var(--bg-card);
-  border-color: var(--border);
+.dark-theme .btn-secondary-action {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .btn-secondary-action:hover {

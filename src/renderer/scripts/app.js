@@ -147,16 +147,30 @@ const App = (() => {
    * @returns {string} Current theme name ('dark' | 'light')
    */
   function toggleTheme(targetTheme) {
-    const isDark = typeof targetTheme === 'string'
-      ? targetTheme === 'dark'
-      : !document.body.classList.contains('dark-theme');
+    const body = document.body;
+    const doc = document.documentElement;
+
+    let isDark;
+    if (typeof targetTheme === 'string') {
+      isDark = targetTheme === 'dark';
+    } else {
+      isDark = !body.classList.contains('dark-theme') && !doc.classList.contains('dark-theme');
+    }
 
     if (isDark) {
-      document.body.classList.add('dark-theme');
+      body.classList.add('dark-theme');
+      doc.classList.add('dark-theme');
       localStorage.setItem('focusflight_theme', 'dark');
+      if (window.api && window.api.setNativeTheme) {
+        window.api.setNativeTheme('dark');
+      }
     } else {
-      document.body.classList.remove('dark-theme');
+      body.classList.remove('dark-theme');
+      doc.classList.remove('dark-theme');
       localStorage.setItem('focusflight_theme', 'light');
+      if (window.api && window.api.setNativeTheme) {
+        window.api.setNativeTheme('light');
+      }
     }
 
     updateThemeIcon(isDark);
@@ -164,17 +178,16 @@ const App = (() => {
   }
 
   function updateThemeIcon(isDark) {
-    const themeIcon = document.getElementById('theme-icon');
     const themeBtn = document.getElementById('btn-theme-toggle');
-    if (!themeIcon) return;
+    if (!themeBtn) return;
 
-    if (isDark) {
-      themeIcon.setAttribute('data-lucide', 'sun');
-      if (themeBtn) themeBtn.title = 'Switch to Light Mode (Black to White Window)';
-    } else {
-      themeIcon.setAttribute('data-lucide', 'moon');
-      if (themeBtn) themeBtn.title = 'Switch to Dark Mode (White to Black Window)';
-    }
+    const iconName = isDark ? 'sun' : 'moon';
+    const titleText = isDark
+      ? 'Switch to Light Mode (Black to White Window)'
+      : 'Switch to Dark Mode (White to Black Window)';
+
+    themeBtn.title = titleText;
+    themeBtn.innerHTML = `<i data-lucide="${iconName}" id="theme-icon" style="width: 18px; height: 18px;"></i>`;
 
     if (window.lucide) window.lucide.createIcons();
   }
@@ -184,7 +197,8 @@ const App = (() => {
     toggleTheme(savedTheme);
 
     const themeBtn = document.getElementById('btn-theme-toggle');
-    if (themeBtn) {
+    if (themeBtn && !themeBtn.dataset.bound) {
+      themeBtn.dataset.bound = 'true';
       themeBtn.addEventListener('click', () => {
         toggleTheme();
       });
@@ -199,12 +213,13 @@ const App = (() => {
 
   return {
     init: async function() {
-      await init();
       initTheme();
+      await init();
     },
     reloadRecentSessions: reloadData,
     toggleTheme,
     setTheme: (theme) => toggleTheme(theme),
+    initTheme,
   };
 })();
 
@@ -213,6 +228,7 @@ window.toggleTheme = (...args) => App.toggleTheme(...args);
 window.setTheme = (theme) => App.setTheme(theme);
 
 document.addEventListener('DOMContentLoaded', async () => {
+  App.initTheme();
   await App.init();
 });
 

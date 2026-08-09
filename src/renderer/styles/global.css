@@ -410,7 +410,7 @@ body {
    Dark Mode Theme System (Turn White Window to Black)
    ============================================================================= */
 
-body.dark-theme {
+.dark-theme, body.dark-theme {
   --bg-page: #0D0E12;
   --bg-card: #161720;
   --bg-inset: #1F212D;
@@ -431,49 +431,60 @@ body.dark-theme {
 }
 
 /* Smooth transition when toggling dark mode */
-body, .top-bar, .card, .modal, .dropdown-panel, .nav-btn, .btn, input, select {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+body, .top-bar, .card, .modal, .dropdown-panel, .nav-btn, .btn, input, select, .duration-chip, .custom-chip-input, .pilot-stat-item, .flight-item {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
 
 /* Dark Mode specific component overrides */
-body.dark-theme .map-container {
+.dark-theme .map-container {
   background: linear-gradient(135deg, #12131D 0%, #1A1B28 50%, #151624 100%);
   border-color: #2B2D40;
 }
 
-body.dark-theme .mission-badge {
+.dark-theme .mission-badge {
   background: rgba(94, 86, 231, 0.2);
   color: #A5A0FF;
 }
 
-body.dark-theme .stat-icon-square.purple {
+.dark-theme .stat-icon-square.purple {
   background: rgba(94, 86, 231, 0.22);
   color: #A5A0FF;
 }
 
-body.dark-theme .stat-icon-square.orange {
+.dark-theme .stat-icon-square.orange {
   background: rgba(255, 112, 67, 0.22);
   color: #FF8F6B;
 }
 
-body.dark-theme .stat-icon-square.yellow {
+.dark-theme .stat-icon-square.yellow {
   background: rgba(245, 158, 11, 0.22);
   color: #FBBF24;
 }
 
-body.dark-theme .streak-badge {
+.dark-theme .streak-badge {
   background: rgba(245, 158, 11, 0.22);
   color: #FBBF24;
 }
 
-body.dark-theme .dropdown-panel {
+.dark-theme .dropdown-panel,
+.dark-theme .custom-dropdown-menu {
+  background: #181926;
+  border-color: #2E3048;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+.dark-theme .modal-overlay {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.dark-theme .modal {
   background: var(--bg-card);
-  border-color: var(--border);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
 }
 
-body.dark-theme select,
-body.dark-theme input {
+.dark-theme select,
+.dark-theme input {
   background-color: var(--bg-inset);
   color: var(--text-primary);
   border-color: var(--border);

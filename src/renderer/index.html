@@ -10,12 +10,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
 
+  <!-- Prevent theme flicker before paint -->
+  <script>
+    (function() {
+      try {
+        const theme = localStorage.getItem('focusflight_theme');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark-theme');
+        }
+      } catch(e) {}
+    })();
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="styles/global.css" />
   <link rel="stylesheet" href="styles/timer.css" />
   <link rel="stylesheet" href="styles/stats.css" />
 </head>
-<body>
+<body class="">
 
   <!-- ── Top Navigation Bar ── -->
   <header class="top-bar">
