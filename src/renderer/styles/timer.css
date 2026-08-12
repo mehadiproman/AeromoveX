@@ -272,11 +272,6 @@
   transition: all var(--transition);
 }
 
-.dark-theme .duration-chip {
-  border-color: rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
-}
-
 .duration-chip:hover {
   background: var(--bg-inset);
   color: var(--text-primary);
@@ -309,11 +304,6 @@
   text-align: center;
   outline: none;
   transition: all var(--transition);
-}
-
-.dark-theme .custom-chip-input {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
 }
 
 .custom-chip-input:focus {
@@ -379,11 +369,6 @@
   background: var(--bg-card);
   border: 1px solid var(--border);
   color: var(--text-primary);
-}
-
-.dark-theme .btn-secondary-action {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .btn-secondary-action:hover {

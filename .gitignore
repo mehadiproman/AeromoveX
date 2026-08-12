@@ -7,3 +7,5 @@ build/
 planning.md
 docs/
 package-lock.json
+sessions.json
+package.json

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,25 +9,17 @@
   <!-- Google Fonts (Plus Jakarta Sans & Outfit) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
-
-  <!-- Prevent theme flicker before paint -->
-  <script>
-    (function() {
-      try {
-        const theme = localStorage.getItem('focusflight_theme');
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark-theme');
-        }
-      } catch(e) {}
-    })();
-  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    rel="stylesheet" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="styles/global.css" />
   <link rel="stylesheet" href="styles/timer.css" />
   <link rel="stylesheet" href="styles/stats.css" />
+  <link rel="stylesheet" href="styles/sandbox.css" />
 </head>
+
 <body class="">
 
   <!-- ── Top Navigation Bar ── -->
@@ -43,14 +36,15 @@
         <i data-lucide="flame" style="width: 14px; height: 14px;"></i>
         <span id="streak-count">0</span> days
       </div>
-      <div class="nav-icon" id="btn-theme-toggle" title="Toggle Dark/Light Mode (White to Black)">
-        <i data-lucide="moon" id="theme-icon" style="width: 18px; height: 18px;"></i>
-      </div>
       <div class="nav-icon" title="Analytics">
         <i data-lucide="bar-chart-2" style="width: 18px; height: 18px;"></i>
       </div>
       <div class="nav-icon" title="Notifications">
         <i data-lucide="bell" style="width: 18px; height: 18px;"></i>
+      </div>
+      <!-- Terminal Sandbox button -->
+      <div class="nav-icon" id="btn-sandbox-toggle" title="Terminal Sandbox">
+        <i data-lucide="terminal" style="width: 18px; height: 18px;"></i>
       </div>
     </div>
   </header>
@@ -63,7 +57,7 @@
 
       <!-- Redesigned Flight Timer Card -->
       <div class="card flight-timer-card">
-        
+
         <!-- 1. Top Telemetry Arc & Nodes Header -->
         <div class="telemetry-arc-header">
           <!-- Origin Node (Dhaka) -->
@@ -131,7 +125,8 @@
           <button class="duration-chip active" data-mins="50">50m</button>
           <button class="duration-chip" data-mins="60">60m</button>
           <div class="custom-duration-wrap">
-            <input type="number" id="custom-minutes-input" min="1" max="720" value="1" placeholder="Custom" class="custom-chip-input" />
+            <input type="number" id="custom-minutes-input" min="1" max="720" value="1" placeholder="Custom"
+              class="custom-chip-input" />
             <button class="btn-custom-set" id="btn-custom-set">Set</button>
           </div>
         </div>
@@ -145,7 +140,8 @@
             <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i> Reset
           </button>
           <button class="btn-control btn-end-action" id="btn-end">
-            <i data-lucide="square" style="width: 16px; height: 16px; color: #FF6363;"></i> <span style="color: #FF6363;">End Session</span>
+            <i data-lucide="square" style="width: 16px; height: 16px; color: #FF6363;"></i> <span
+              style="color: #FF6363;">End Session</span>
           </button>
         </div>
 
@@ -254,11 +250,63 @@
     </div>
   </div>
 
+  <!-- ── Terminal Sandbox Overlay ── -->
+  <div id="sandbox-overlay">
+    <!-- Sandbox Top Bar -->
+    <div class="sandbox-top-bar">
+      <div class="sandbox-title">Client-Server Terminal Sandbox</div>
+      <div class="sandbox-status">localhost:3000</div>
+      <div class="sandbox-top-actions">
+        <button class="sandbox-clear-btn" id="sandbox-clear-btn">Clear All</button>
+        <button class="sandbox-close-btn" id="sandbox-close-btn">Close</button>
+      </div>
+    </div>
+
+    <!-- 3-Panel Body -->
+    <div class="sandbox-body">
+
+      <!-- Client A -->
+      <div class="sandbox-panel">
+        <div class="sandbox-panel-header">
+          <span class="panel-dot green"></span>
+          <span class="panel-label green-text">Client A</span>
+        </div>
+        <pre class="sandbox-output" id="client-a-output"></pre>
+        <div class="sandbox-input-row">
+          <span class="sandbox-prompt-label">&gt;</span>
+          <input type="text" class="sandbox-input" id="client-a-input" placeholder="Type a message and press Enter"
+            autocomplete="off" spellcheck="false" />
+        </div>
+      </div>
+
+      <!-- Client B -->
+      <div class="sandbox-panel">
+        <div class="sandbox-panel-header">
+          <span class="panel-dot cyan"></span>
+          <span class="panel-label cyan-text">Client B</span>
+        </div>
+        <pre class="sandbox-output" id="client-b-output"></pre>
+      </div>
+
+      <!-- Server Inspector -->
+      <div class="sandbox-panel">
+        <div class="sandbox-panel-header">
+          <span class="panel-dot amber"></span>
+          <span class="panel-label amber-text">Node.js Server Inspector</span>
+        </div>
+        <div class="sandbox-inspector" id="server-log"></div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="scripts/timer.js"></script>
   <script src="scripts/dashboard.js"></script>
+  <script src="scripts/sandbox.js"></script>
   <script src="scripts/app.js"></script>
 
 </body>
+
 </html>

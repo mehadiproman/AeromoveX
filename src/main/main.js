@@ -11,7 +11,8 @@
 //   3. Show native desktop notifications
 // =============================================================================
 
-const { app, BrowserWindow, ipcMain, Notification, nativeTheme } = require('electron');
+const { app, BrowserWindow, ipcMain, Notification } = require('electron');
+const { startServer } = require('./server');
 const path = require('path');
 const fs = require('fs');
 
@@ -77,18 +78,6 @@ ipcMain.handle('load-settings', async () => {
   });
 });
 
-// Set native OS / window theme
-ipcMain.handle('set-native-theme', async (_event, theme) => {
-  if (theme === 'dark') {
-    nativeTheme.themeSource = 'dark';
-  } else if (theme === 'light') {
-    nativeTheme.themeSource = 'light';
-  } else {
-    nativeTheme.themeSource = 'system';
-  }
-  return nativeTheme.shouldUseDarkColors;
-});
-
 // Show a native desktop notification
 ipcMain.handle('show-notification', async (_event, title, body) => {
   if (Notification.isSupported()) {
@@ -114,7 +103,7 @@ function createWindow() {
     height: 900,
     minWidth: 1024,
     minHeight: 700,
-    backgroundColor: nativeTheme.shouldUseDarkColors ? '#0D0E12' : '#F7F7F8',
+    backgroundColor: '#FFFFFF',
     webPreferences: {
       preload: path.join(__dirname, '..', 'preload', 'preload.js'),
       contextIsolation: true,
@@ -133,6 +122,7 @@ function createWindow() {
 // ---------------------------------------------------------------------------
 app.whenReady().then(() => {
   createWindow();
+  startServer(3000);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

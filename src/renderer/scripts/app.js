@@ -9,6 +9,7 @@ const App = (() => {
     Timer.init();
     Dashboard.init();
     await Dashboard.load();
+    if (typeof Sandbox !== 'undefined') Sandbox.init();
 
     els = {
       statToday: document.getElementById('stat-today'),
@@ -141,70 +142,6 @@ const App = (() => {
     return days;
   }
 
-  /**
-   * Toggles window theme between Light (white window) and Dark (black window).
-   * @param {string} [targetTheme] - Optional 'dark' or 'light'
-   * @returns {string} Current theme name ('dark' | 'light')
-   */
-  function toggleTheme(targetTheme) {
-    const body = document.body;
-    const doc = document.documentElement;
-
-    let isDark;
-    if (typeof targetTheme === 'string') {
-      isDark = targetTheme === 'dark';
-    } else {
-      isDark = !body.classList.contains('dark-theme') && !doc.classList.contains('dark-theme');
-    }
-
-    if (isDark) {
-      body.classList.add('dark-theme');
-      doc.classList.add('dark-theme');
-      localStorage.setItem('focusflight_theme', 'dark');
-      if (window.api && window.api.setNativeTheme) {
-        window.api.setNativeTheme('dark');
-      }
-    } else {
-      body.classList.remove('dark-theme');
-      doc.classList.remove('dark-theme');
-      localStorage.setItem('focusflight_theme', 'light');
-      if (window.api && window.api.setNativeTheme) {
-        window.api.setNativeTheme('light');
-      }
-    }
-
-    updateThemeIcon(isDark);
-    return isDark ? 'dark' : 'light';
-  }
-
-  function updateThemeIcon(isDark) {
-    const themeBtn = document.getElementById('btn-theme-toggle');
-    if (!themeBtn) return;
-
-    const iconName = isDark ? 'sun' : 'moon';
-    const titleText = isDark
-      ? 'Switch to Light Mode (Black to White Window)'
-      : 'Switch to Dark Mode (White to Black Window)';
-
-    themeBtn.title = titleText;
-    themeBtn.innerHTML = `<i data-lucide="${iconName}" id="theme-icon" style="width: 18px; height: 18px;"></i>`;
-
-    if (window.lucide) window.lucide.createIcons();
-  }
-
-  function initTheme() {
-    const savedTheme = localStorage.getItem('focusflight_theme') || 'light';
-    toggleTheme(savedTheme);
-
-    const themeBtn = document.getElementById('btn-theme-toggle');
-    if (themeBtn && !themeBtn.dataset.bound) {
-      themeBtn.dataset.bound = 'true';
-      themeBtn.addEventListener('click', () => {
-        toggleTheme();
-      });
-    }
-  }
-
   function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, function(m) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
@@ -213,22 +150,13 @@ const App = (() => {
 
   return {
     init: async function() {
-      initTheme();
       await init();
     },
     reloadRecentSessions: reloadData,
-    toggleTheme,
-    setTheme: (theme) => toggleTheme(theme),
-    initTheme,
   };
 })();
 
-// Expose globally on window for direct access
-window.toggleTheme = (...args) => App.toggleTheme(...args);
-window.setTheme = (theme) => App.setTheme(theme);
-
 document.addEventListener('DOMContentLoaded', async () => {
-  App.initTheme();
   await App.init();
 });
 
