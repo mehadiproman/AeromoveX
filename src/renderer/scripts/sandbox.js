@@ -67,7 +67,13 @@ const Sandbox = (() => {
   // Server Inspector — Structured Card Builder
   // ---------------------------------------------------------------------------
 
-  function addInspectorCard({ client, clientClass, description, method, url, reqHeaders, reqBody, parsedData, status, resHeaders, resBody, error }) {
+  function addInspectorCard({ client, clientClass, description, method, url, reqHeaders, reqBody, parsedData, status, resHeaders, resBody, error }, clearPrevious = false) {
+    if (clearPrevious) {
+      // Remove old inspection cards from DOM to free memory & maintain 1 clean active transaction
+      const oldCards = serverLog.querySelectorAll('.inspector-card');
+      oldCards.forEach(c => c.remove());
+    }
+
     const card = document.createElement('div');
     card.className = 'inspector-card';
 
@@ -195,6 +201,7 @@ const Sandbox = (() => {
       'CLIENT A (SENDER)',
       '-----------------',
       'Type a message and press Enter.',
+      'Commands: /help, /clear, /status',
       'Sends POST /api/message to Server.',
     ]);
 
@@ -212,6 +219,82 @@ const Sandbox = (() => {
     ]);
 
     appendLog(clientBOutput, 'SYS', 'system', 'Listening for messages from server');
+  }
+
+  // ---------------------------------------------------------------------------
+  // Client A: Command Handler (/help, /clear, /status)
+  // ---------------------------------------------------------------------------
+
+  async function handleCommand(text) {
+    const command = text.trim().toLowerCase();
+
+    if (command === '/help') {
+      appendLog(clientAOutput, 'CMD', 'sent', '/help');
+      appendLog(clientAOutput, 'SYS', 'system', 'Available Terminal Commands:');
+      appendLog(clientAOutput, 'SYS', 'system', '  /help   - Display available terminal commands');
+      appendLog(clientAOutput, 'SYS', 'system', '  /clear  - Clear Client A terminal screen');
+      appendLog(clientAOutput, 'SYS', 'system', '  /status - Fetch live server uptime & message stats');
+      return;
+    }
+
+    if (command === '/clear') {
+      clientAOutput.innerHTML = '';
+      printBanner(clientAOutput, [
+        'CLIENT A (SENDER)',
+        '-----------------',
+        'Type a message and press Enter.',
+        'Commands: /help, /clear, /status',
+        'Sends POST /api/message to Server.',
+      ]);
+      return;
+    }
+
+    if (command === '/status') {
+      appendLog(clientAOutput, 'CMD', 'sent', '/status');
+      try {
+        const res = await fetch(`${SERVER_URL}/api/status`);
+        const json = await res.json();
+
+        addInspectorCard({
+          client: 'Client A',
+          clientClass: 'client-a',
+          description: 'Client A requested server status metrics via GET',
+          method: 'GET',
+          url: '/api/status',
+          reqHeaders: {
+            'Host': 'localhost:3000',
+            'Accept': 'application/json',
+          },
+          status: res.status,
+          resHeaders: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+          resBody: json,
+        }, true);
+
+        appendLog(
+          clientAOutput,
+          'SYS',
+          'system',
+          `Server Status: ${json.status.toUpperCase()} | Uptime: ${json.uptimeSeconds}s | Total Messages: ${json.totalMessages}`
+        );
+      } catch (err) {
+        addInspectorCard({
+          client: 'Client A',
+          clientClass: 'client-a',
+          description: 'Client A status request failed',
+          method: 'GET',
+          url: '/api/status',
+          error: err.message,
+        }, true);
+        appendLog(clientAOutput, 'ERR', 'error', `Failed to fetch status: ${err.message}`);
+      }
+      return;
+    }
+
+    appendLog(clientAOutput, 'CMD', 'sent', text);
+    appendLog(clientAOutput, 'ERR', 'error', `Unknown command "${text}". Type /help for available commands.`);
   }
 
   // ---------------------------------------------------------------------------
@@ -240,7 +323,7 @@ const Sandbox = (() => {
 
       const json = await res.json();
 
-      // Inspector card with full details and Client A badge
+      // Inspector card with full details and Client A badge (clearPrevious = true to delete old inspection cards)
       addInspectorCard({
         client: 'Client A',
         clientClass: 'client-a',
@@ -256,7 +339,7 @@ const Sandbox = (() => {
           'Access-Control-Allow-Origin': '*',
         },
         resBody: json,
-      });
+      }, true);
 
     } catch (err) {
       addInspectorCard({
@@ -268,7 +351,7 @@ const Sandbox = (() => {
         reqHeaders: reqHeaders,
         reqBody: rawBody,
         error: err.message,
-      });
+      }, true);
 
       appendLog(clientAOutput, 'ERR', 'error', `Failed to send: ${err.message}`);
     }
@@ -412,7 +495,11 @@ const Sandbox = (() => {
           e.preventDefault();
           const text = clientAInput.value.trim();
           if (text) {
-            sendMessage(text);
+            if (text.startsWith('/')) {
+              handleCommand(text);
+            } else {
+              sendMessage(text);
+            }
             clientAInput.value = '';
           }
         }

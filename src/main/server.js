@@ -2,6 +2,7 @@ const http = require('http');
 
 // In-memory log of all messages received via the sandbox UI
 let messages = [];
+const serverStartTime = Date.now();
 
 function startServer(port = 3000) {
   const server = http.createServer((req, res) => {
@@ -16,6 +17,19 @@ function startServer(port = 3000) {
     if (req.method === 'OPTIONS') {
       res.writeHead(204);
       res.end();
+      return;
+    }
+
+    // ---- GET /api/status --------------------------------------------------
+    if (req.method === 'GET' && parsedUrl.pathname === '/api/status') {
+      const uptimeSeconds = Math.floor((Date.now() - serverStartTime) / 1000);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        status: 'ok',
+        uptimeSeconds,
+        totalMessages: messages.length,
+        timestamp: new Date().toISOString()
+      }));
       return;
     }
 
