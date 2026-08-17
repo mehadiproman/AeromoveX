@@ -1,6 +1,4 @@
-// =============================================================================
-// FocusFlight — Redesigned Flight Timer Module (Exact Match with Reference UI)
-// =============================================================================
+// FocusFlight — Flight Timer Module
 
 const Timer = (() => {
   let state = {
@@ -13,7 +11,6 @@ const Timer = (() => {
     selectedOrigin: 'Dhaka (DAC)',
     selectedDestination: 'Chittagong (CGP)',
     totalDistanceKm: 248,
-    missionName: 'Backend Engineering Notes',
   };
 
   let els = {};
@@ -21,8 +18,6 @@ const Timer = (() => {
   function init() {
     els = {
       timeDisplay: document.getElementById('timer-time'),
-      progressBar: document.getElementById('timer-progress-bar'),
-      progressHandle: document.getElementById('timer-progress-handle'),
       metricDistance: document.getElementById('metric-distance'),
       metricEstTime: document.getElementById('metric-est-time'),
       pauseBtn: document.getElementById('btn-pause'),
@@ -30,7 +25,6 @@ const Timer = (() => {
       resetBtn: document.getElementById('btn-reset'),
       endBtn: document.getElementById('btn-end'),
       mapContainer: document.getElementById('map-container'),
-      destTitle: document.getElementById('node-dest-title'),
     };
 
     renderMap();
@@ -292,7 +286,6 @@ const Timer = (() => {
       duration: elapsedMinutes > 0 ? elapsedMinutes : state.selectedMinutes,
       origin: state.selectedOrigin || 'Dhaka (DAC)',
       destination: state.selectedDestination || 'Chittagong (CGP)',
-      mission: state.missionName,
       completed: true,
     };
 
@@ -356,10 +349,6 @@ const Timer = (() => {
     if (els.timeDisplay) els.timeDisplay.textContent = pad(minutes) + ':' + pad(seconds);
 
     const progress = (state.totalSeconds - state.remainingSeconds) / state.totalSeconds;
-    const progressPct = Math.min(100, Math.max(0, Math.round(progress * 100)));
-
-    if (els.progressBar) els.progressBar.style.width = progressPct + '%';
-    if (els.progressHandle) els.progressHandle.style.left = progressPct + '%';
 
     // Dynamic distance & estimated time matching reference design
     const totalDistKm = state.totalDistanceKm || 248;

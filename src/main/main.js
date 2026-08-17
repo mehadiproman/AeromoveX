@@ -1,31 +1,16 @@
-// =============================================================================
 // FocusFlight — Main Process
-// =============================================================================
-// This is the main Electron process. It runs in Node.js and has full access
-// to the operating system. The renderer (UI) communicates with this process
-// through IPC channels exposed via preload.js.
-//
-// Responsibilities:
-//   1. Create and manage the application window
-//   2. Handle file I/O (sessions.json, settings.json)
-//   3. Show native desktop notifications
-// =============================================================================
 
 const { app, BrowserWindow, ipcMain, Notification } = require('electron');
 const { startServer } = require('./server');
 const path = require('path');
 const fs = require('fs');
 
-// ---------------------------------------------------------------------------
 // File paths for persistent data
-// ---------------------------------------------------------------------------
 const DATA_DIR = path.join(__dirname, '..', '..', 'data');
 const SESSIONS_PATH = path.join(DATA_DIR, 'sessions.json');
 const SETTINGS_PATH = path.join(DATA_DIR, 'settings.json');
 
-// ---------------------------------------------------------------------------
 // Helper: Read JSON file safely
-// ---------------------------------------------------------------------------
 function readJSON(filePath, fallback) {
   try {
     const raw = fs.readFileSync(filePath, 'utf-8');
@@ -35,20 +20,15 @@ function readJSON(filePath, fallback) {
   }
 }
 
-// ---------------------------------------------------------------------------
 // Helper: Write JSON file
-// ---------------------------------------------------------------------------
 function writeJSON(filePath, data) {
-  // Ensure the data directory exists
   if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
   }
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
 }
 
-// ---------------------------------------------------------------------------
-// IPC Handlers — Renderer → Main
-// ---------------------------------------------------------------------------
+// IPC Handlers — Renderer to Main
 
 // Save a completed session
 ipcMain.handle('save-session', async (_event, session) => {
@@ -94,9 +74,7 @@ ipcMain.on('console-error', (_event, message) => {
   console.log('!!! END FRONTEND ERROR !!!\n');
 });
 
-// ---------------------------------------------------------------------------
 // Window Creation
-// ---------------------------------------------------------------------------
 function createWindow() {
   const window = new BrowserWindow({
     width: 1440,
@@ -117,9 +95,7 @@ function createWindow() {
   window.loadFile(path.join(__dirname, '..', 'renderer', 'index.html'));
 }
 
-// ---------------------------------------------------------------------------
 // App Lifecycle
-// ---------------------------------------------------------------------------
 app.whenReady().then(() => {
   createWindow();
   startServer(3000);

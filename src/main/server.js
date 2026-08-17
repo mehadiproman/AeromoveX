@@ -8,7 +8,7 @@ function startServer(port = 3000) {
   const server = http.createServer((req, res) => {
     const parsedUrl = new URL(req.url, `http://localhost:${port}`);
 
-    // ---- CORS headers so renderer can call the server directly ----
+    // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -20,7 +20,7 @@ function startServer(port = 3000) {
       return;
     }
 
-    // ---- GET /api/status --------------------------------------------------
+    // GET /api/status
     if (req.method === 'GET' && parsedUrl.pathname === '/api/status') {
       const uptimeSeconds = Math.floor((Date.now() - serverStartTime) / 1000);
       res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -33,7 +33,7 @@ function startServer(port = 3000) {
       return;
     }
 
-    // ---- POST /api/message ------------------------------------------------
+    // POST /api/message
     if (req.method === 'POST' && parsedUrl.pathname === '/api/message') {
       let body = '';
       req.on('data', chunk => (body += chunk));
@@ -49,14 +49,14 @@ function startServer(port = 3000) {
       return;
     }
 
-    // ---- GET /api/messages ------------------------------------------------
+    // GET /api/messages
     if (req.method === 'GET' && parsedUrl.pathname === '/api/messages') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(messages));
       return;
     }
 
-    // ---- POST /api/clear or DELETE /api/messages ------------------------
+    // POST /api/clear or DELETE /api/messages
     if ((req.method === 'POST' || req.method === 'DELETE') && (parsedUrl.pathname === '/api/clear' || parsedUrl.pathname === '/api/messages')) {
       messages = [];
       res.writeHead(200, { 'Content-Type': 'application/json' });

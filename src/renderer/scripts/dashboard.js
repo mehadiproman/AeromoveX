@@ -1,10 +1,4 @@
-// =============================================================================
 // FocusFlight — Dashboard Module
-// =============================================================================
-// Renders the right-sidebar widgets dynamically based on actual session data:
-// Pilot Stats, Today's Flights, Weekly Overview (bar chart + ring).
-// Starts at 0 when no sessions exist. Uses Lucide icons exclusively.
-// =============================================================================
 
 const Dashboard = (() => {
   let els = {};
@@ -19,7 +13,6 @@ const Dashboard = (() => {
       weeklyBars: document.getElementById('weekly-bars'),
       weeklyRingFill: document.getElementById('weekly-ring-fill'),
       ringHoursValue: document.getElementById('ring-hours-value'),
-      streakBadge: document.getElementById('streak-count'),
     };
   }
 
@@ -34,9 +27,7 @@ const Dashboard = (() => {
     if (window.lucide) window.lucide.createIcons();
   }
 
-  // ---------------------------------------------------------------------------
   // Pilot Stats
-  // ---------------------------------------------------------------------------
   function renderPilotStats(sessions) {
     const today = new Date().toISOString().split('T')[0];
     const weekDays = getLast7Days();
@@ -57,12 +48,9 @@ const Dashboard = (() => {
     if (els.hoursWeek) els.hoursWeek.textContent = weekHours + ' h';
     if (els.currentStreak) els.currentStreak.textContent = current + ' days';
     if (els.longestStreak) els.longestStreak.textContent = longest + ' days';
-    if (els.streakBadge) els.streakBadge.textContent = current;
   }
 
-  // ---------------------------------------------------------------------------
   // Today's Flights
-  // ---------------------------------------------------------------------------
   function renderTodaysFlights(sessions) {
     if (!els.flightsList) return;
 
@@ -78,18 +66,17 @@ const Dashboard = (() => {
       return;
     }
 
-    els.flightsList.innerHTML = todaySessions.map((s, i) => {
-      const isLast = i === todaySessions.length - 1;
-      const icon = isLast
-        ? '<i data-lucide="plane" style="width: 14px; height: 14px;"></i>'
-        : '<i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i>';
+    // Keep only the latest 3 flights for today
+    const latest3 = todaySessions.slice(-3);
+
+    els.flightsList.innerHTML = latest3.map((s, i) => {
+      const isLast = i === latest3.length - 1;
 
       return `
         <div class="flight-item ${isLast ? 'active' : ''}">
-          <div class="flight-icon ${isLast ? 'in-progress' : 'completed'}">${icon}</div>
           <div class="flight-details">
             <div class="flight-route">${s.origin || 'Dhaka (DAC)'} → ${s.destination || 'Chittagong (CGP)'}</div>
-            <div class="flight-meta ${isLast ? 'in-progress-text' : ''}">${isLast ? 'In Progress' : s.mission || 'Completed'}</div>
+            <div class="flight-meta ${isLast ? 'in-progress-text' : ''}">${isLast ? 'In Progress' : 'Completed'}</div>
           </div>
           <div class="flight-duration ${isLast ? 'in-progress-dur' : ''}">${s.duration} min</div>
         </div>
@@ -97,9 +84,7 @@ const Dashboard = (() => {
     }).join('');
   }
 
-  // ---------------------------------------------------------------------------
   // Weekly Overview
-  // ---------------------------------------------------------------------------
   function renderWeeklyOverview(sessions) {
     const days = getLast7Days(); // Array of ISO date strings for last 7 days
     const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];

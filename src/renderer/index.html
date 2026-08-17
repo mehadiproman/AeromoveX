@@ -20,28 +20,17 @@
   <link rel="stylesheet" href="styles/sandbox.css" />
 </head>
 
-<body class="">
+<body>
 
-  <!-- ── Top Navigation Bar ── -->
+  <!-- Top Navigation Bar -->
   <header class="top-bar">
     <div class="top-bar-left">
       <div class="top-bar-logo">
-        <i data-lucide="plane" class="logo-plane-icon"></i>
         <span>FocusFlight</span>
       </div>
     </div>
 
     <div class="top-bar-right">
-      <div class="streak-badge" id="streak-badge">
-        <i data-lucide="flame" style="width: 14px; height: 14px;"></i>
-        <span id="streak-count">0</span> days
-      </div>
-      <div class="nav-icon" title="Analytics">
-        <i data-lucide="bar-chart-2" style="width: 18px; height: 18px;"></i>
-      </div>
-      <div class="nav-icon" title="Notifications">
-        <i data-lucide="bell" style="width: 18px; height: 18px;"></i>
-      </div>
       <!-- Terminal Sandbox button -->
       <div class="nav-icon" id="btn-sandbox-toggle" title="Terminal Sandbox">
         <i data-lucide="terminal" style="width: 18px; height: 18px;"></i>
@@ -152,12 +141,9 @@
     <!-- ══════════════ RIGHT COLUMN (~40%) ══════════════ -->
     <div class="dashboard-right">
 
-      <!-- 1. Pilot Stats Card -->
+      <!-- 1. Analytics Card -->
       <div class="card pilot-stats-card">
-        <div class="card-title">
-          <i data-lucide="shield" class="title-icon"></i>
-          <span>Pilot Stats</span>
-        </div>
+        <div class="card-title">Analytics</div>
 
         <div class="pilot-stats-grid">
           <div class="pilot-stat-item">
@@ -208,7 +194,6 @@
         <div class="flights-list" id="flights-list">
           <!-- Rendered by dashboard.js -->
         </div>
-        <button class="add-flight-btn" id="add-flight-btn">+ Add Flight</button>
       </div>
 
       <!-- 3. Weekly Overview Card -->

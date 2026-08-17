@@ -1,6 +1,4 @@
-/* =============================================================================
-   FocusFlight — Pilot Stats, Today's Flights & Weekly Overview
-   ============================================================================= */
+/* FocusFlight — Pilot Stats, Today's Flights & Weekly Overview */
 
 /* ── Pilot Stats ── */
 .pilot-stats-card {
@@ -85,27 +83,6 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 180px;
-  overflow-y: auto;
-  margin-bottom: 12px;
-  padding-right: 4px;
-}
-
-.flights-list::-webkit-scrollbar {
-  width: 4px;
-}
-
-.flights-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.flights-list::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 10px;
-}
-
-.flights-list::-webkit-scrollbar-thumb:hover {
-  background: #7C5CFF;
 }
 
 .flight-item {
@@ -125,19 +102,6 @@
   background: var(--accent-dim);
   border: 1px solid var(--accent-dim-hover);
 }
-
-.flight-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.flight-icon.completed { color: var(--green); }
-.flight-icon.in-progress { color: var(--accent); }
 
 .flight-details {
   flex: 1;
@@ -177,25 +141,6 @@
 
 .flight-duration.in-progress-dur {
   color: var(--accent);
-}
-
-.add-flight-btn {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  border: none;
-  background: transparent;
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: 600;
-  font-family: var(--font);
-  cursor: pointer;
-  text-align: center;
-  transition: color var(--transition);
-}
-
-.add-flight-btn:hover {
-  color: var(--accent-light);
 }
 
 /* ── Weekly Overview ── */

@@ -3,7 +3,6 @@
     "date": "2026-08-05",
     "duration": 1,
     "destination": "Chittagong (CGP)",
-    "mission": "Backend Engineering Notes",
     "completed": true,
     "id": 1
   },
@@ -12,7 +11,6 @@
     "duration": 11,
     "origin": "Chittagong (CGP)",
     "destination": "Sydney (SYD)",
-    "mission": "Backend Engineering Notes",
     "completed": true,
     "id": 2
   },
@@ -21,7 +19,6 @@
     "duration": 1,
     "origin": "Tokyo (HND)",
     "destination": "Dhaka (DAC)",
-    "mission": "Backend Engineering Notes",
     "completed": true,
     "id": 3
   },
@@ -30,7 +27,6 @@
     "duration": 1,
     "origin": "Tokyo (HND)",
     "destination": "Dhaka (DAC)",
-    "mission": "Backend Engineering Notes",
     "completed": true,
     "id": 4
   },
@@ -39,7 +35,6 @@
     "duration": 1,
     "origin": "Tokyo (HND)",
     "destination": "Dhaka (DAC)",
-    "mission": "Backend Engineering Notes",
     "completed": true,
     "id": 5
   },
@@ -48,7 +43,6 @@
     "duration": 1,
     "origin": "Dhaka (DAC)",
     "destination": "Chittagong (CGP)",
-    "mission": "Backend Engineering Notes",
     "completed": true,
     "id": 6
   },
@@ -57,8 +51,31 @@
     "duration": 1,
     "origin": "Dhaka (DAC)",
     "destination": "Chittagong (CGP)",
-    "mission": "Backend Engineering Notes",
     "completed": true,
     "id": 7
+  },
+  {
+    "date": "2026-08-17",
+    "duration": 1,
+    "origin": "Dhaka (DAC)",
+    "destination": "Chittagong (CGP)",
+    "completed": true,
+    "id": 8
+  },
+  {
+    "date": "2026-08-17",
+    "duration": 1,
+    "origin": "Dhaka (DAC)",
+    "destination": "Chittagong (CGP)",
+    "completed": true,
+    "id": 9
+  },
+  {
+    "date": "2026-08-17",
+    "duration": 1,
+    "origin": "Dhaka (DAC)",
+    "destination": "Chittagong (CGP)",
+    "completed": true,
+    "id": 10
   }
 ]

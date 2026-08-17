@@ -1,7 +1,4 @@
-/* =============================================================================
-   FocusFlight — Global Design System
-   Exact Reference Design System (Apple + Linear + Notion inspired)
-   ============================================================================= */
+/* FocusFlight — Global Design System */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
@@ -64,9 +61,7 @@ body {
 
 .lucide { vertical-align: middle; }
 
-/* =============================================================================
-   Top Navigation Bar
-   ============================================================================= */
+/* Top Navigation Bar */
 
 .top-bar {
   height: 56px;
@@ -96,75 +91,13 @@ body {
   letter-spacing: -0.02em;
 }
 
-.logo-plane-icon {
-  width: 22px;
-  height: 22px;
-  color: var(--accent);
-}
-
-/* ── Center Navigation ── */
-.top-nav {
-  display: flex;
-  gap: 6px;
-  -webkit-app-region: no-drag;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.nav-btn {
-  padding: 6px 18px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  cursor: pointer;
-  border-radius: 8px;
-  transition: background var(--transition), color var(--transition);
-  position: relative;
-  white-space: nowrap;
-}
-
-.nav-btn:hover {
-  background: var(--bg-inset);
-  color: var(--text-primary);
-}
-
-.nav-btn.active {
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.nav-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 24px;
-  height: 2px;
-  background: var(--accent);
-  border-radius: 1px;
-}
-
-/* ── Right Nav Area ── */
+/* Right Nav Area */
 .top-bar-right {
   display: flex;
   align-items: center;
   gap: 14px;
   -webkit-app-region: no-drag;
   flex-shrink: 0;
-}
-
-.streak-badge {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #D97706;
-  background: #FEF3C7;
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
 }
 
 .nav-icon {
@@ -195,29 +128,7 @@ body {
   color: var(--accent);
 }
 
-.avatar-dropdown {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-}
-
-.user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #8B5CF6;
-  color: var(--text-inverted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-/* =============================================================================
-   Dashboard Layout (Two Columns)
-   ============================================================================= */
+/* Dashboard Layout (Two Columns) */
 
 .dashboard {
   display: flex;
@@ -253,7 +164,7 @@ body {
   min-width: 0;
 }
 
-/* ── Card Base ── */
+/* Card Base */
 .card {
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -277,59 +188,7 @@ body {
   margin-bottom: 16px;
 }
 
-.card-title .title-icon {
-  width: 16px;
-  height: 16px;
-  color: var(--accent);
-}
-
-/* =============================================================================
-   Dropdown Panel (Settings, History, etc.)
-   ============================================================================= */
-
-.dropdown-overlay {
-  position: fixed;
-  top: 56px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 40;
-  display: none;
-}
-
-.dropdown-overlay.open { display: block; }
-
-.dropdown-panel {
-  position: absolute;
-  top: 0;
-  right: 16px;
-  width: 420px;
-  max-height: calc(100vh - 80px);
-  overflow-y: auto;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-top: none;
-  border-radius: 0 0 var(--radius) var(--radius);
-  padding: 20px;
-  box-shadow: var(--shadow-hover);
-  animation: slideDown 0.15s ease;
-}
-
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.dropdown-header {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 16px;
-}
-
-/* =============================================================================
-   Modal
-   ============================================================================= */
+/* Modal */
 
 .modal-overlay {
   position: fixed;
@@ -358,9 +217,7 @@ body {
 .modal h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
 .modal p { color: var(--text-secondary); font-size: 14px; margin-bottom: 24px; line-height: 1.6; }
 
-/* =============================================================================
-   Buttons
-   ============================================================================= */
+/* Buttons */
 
 .btn {
   padding: 9px 24px;
@@ -395,19 +252,3 @@ body {
 }
 
 .btn-outline:hover { background: var(--bg-inset); }
-
-/* ── Quote Footer ── */
-.quote-footer {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 10px 0 6px;
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-style: italic;
-}
-
-.quote-mark {
-  color: var(--accent);
-  font-size: 16px;
-  margin: 0 4px;
-}

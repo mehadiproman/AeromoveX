@@ -1,17 +1,9 @@
-// =============================================================================
 // FocusFlight — Terminal Sandbox Controller
-// =============================================================================
-// 3-Panel layout: Client A | Client B | Server Inspector
-//
-// Client A:  Type messages, sends POST to localhost:3000
-// Client B:  Polls GET /api/messages to receive messages
-// Inspector: Shows structured HTTP request/response details in JSON format
-// =============================================================================
 
 const Sandbox = (() => {
   const SERVER_URL = 'http://localhost:3000';
 
-  let overlay, closeBtn, toggleBtn;
+  let overlay, closeBtn, toggleBtn, clearBtn;
   let clientAOutput, clientAInput;
   let serverLog;
   let clientBOutput;
@@ -20,10 +12,7 @@ const Sandbox = (() => {
   let pollInterval = null;
   let knownCount = 0;
 
-  // ---------------------------------------------------------------------------
   // Helpers
-  // ---------------------------------------------------------------------------
-
   function ts() {
     const d = new Date();
     return [d.getHours(), d.getMinutes(), d.getSeconds()]
@@ -50,10 +39,7 @@ const Sandbox = (() => {
     container.scrollTop = container.scrollHeight;
   }
 
-  // ---------------------------------------------------------------------------
   // JSON Syntax Highlighter
-  // ---------------------------------------------------------------------------
-
   function highlightJson(obj) {
     const raw = JSON.stringify(obj, null, 2);
     return raw
@@ -63,10 +49,7 @@ const Sandbox = (() => {
       .replace(/: (true|false|null)/g, ': <span class="json-bool">$1</span>');
   }
 
-  // ---------------------------------------------------------------------------
   // Server Inspector — Structured Card Builder
-  // ---------------------------------------------------------------------------
-
   function addInspectorCard({ client, clientClass, description, method, url, reqHeaders, reqBody, parsedData, status, resHeaders, resBody, error }, clearPrevious = false) {
     if (clearPrevious) {
       // Remove old inspection cards from DOM to free memory & maintain 1 clean active transaction
@@ -221,10 +204,7 @@ const Sandbox = (() => {
     appendLog(clientBOutput, 'SYS', 'system', 'Listening for messages from server');
   }
 
-  // ---------------------------------------------------------------------------
   // Client A: Command Handler (/help, /clear, /status)
-  // ---------------------------------------------------------------------------
-
   async function handleCommand(text) {
     const command = text.trim().toLowerCase();
 
@@ -297,10 +277,7 @@ const Sandbox = (() => {
     appendLog(clientAOutput, 'ERR', 'error', `Unknown command "${text}". Type /help for available commands.`);
   }
 
-  // ---------------------------------------------------------------------------
   // Client A: Send Message
-  // ---------------------------------------------------------------------------
-
   async function sendMessage(text) {
     if (!text.trim()) return;
 
@@ -357,10 +334,7 @@ const Sandbox = (() => {
     }
   }
 
-  // ---------------------------------------------------------------------------
   // Client B: Poll for new messages
-  // ---------------------------------------------------------------------------
-
   async function pollMessages() {
     try {
       const res = await fetch(`${SERVER_URL}/api/messages`);
@@ -402,10 +376,7 @@ const Sandbox = (() => {
     }
   }
 
-  // ---------------------------------------------------------------------------
   // Clear All Terminals & Server State
-  // ---------------------------------------------------------------------------
-
   async function clearAll() {
     knownCount = 0;
     if (clientAInput) clientAInput.value = '';
@@ -420,10 +391,7 @@ const Sandbox = (() => {
     if (clientAInput) clientAInput.focus();
   }
 
-  // ---------------------------------------------------------------------------
   // Open / Close
-  // ---------------------------------------------------------------------------
-
   async function open() {
     if (isOpen) return;
     isOpen = true;
@@ -457,10 +425,7 @@ const Sandbox = (() => {
     }
   }
 
-  // ---------------------------------------------------------------------------
   // Init
-  // ---------------------------------------------------------------------------
-
   function init() {
     overlay       = document.getElementById('sandbox-overlay');
     closeBtn      = document.getElementById('sandbox-close-btn');
